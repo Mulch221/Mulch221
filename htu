@@ -1,0 +1,48 @@
+function showMilitary(){
+        	$.ajax({  
+		        type:"get",  
+		        url:prefix + "/globallist",  
+		        dataType:"json",  
+		        cache:false,
+		        processData:false,
+		        success:function(result){
+		        	if(result.code == web_status.SUCCESS){
+		        		var strokeStyleSet = "#c50808";
+		        		var lat,lng,cityInfo;
+		        		for(var i=0;i<result.data.length;i++){
+		        			var dataInfo = result.data[i];
+		        			var geomObj = JSON.parse(dataInfo.geomJson);
+		        			var radiusSize = 6;
+		        			switch(dataInfo.type) {
+			        		    case 0:  
+			        		    	strokeStyleSet = "#168d40";
+			        		        break;
+			        		    default:
+			        		    	strokeStyleSet = "#c50808";
+			        		}
+	    				    var content = "<strong>名称（英）:</strong>"+dataInfo.enName + "<br/><strong>名称（中）:</strong>"+dataInfo.cnName;
+	    				    content += "<br/><strong>驻地国家（英）:</strong>"+dataInfo.enCountry + "<br/><strong>驻地国家（英）:</strong>"+dataInfo.cnCountry;
+		    				var latlng = new L.latLng(geomObj.coordinates[1], geomObj.coordinates[0]);
+		    			    let marker = L.circleMarker(latlng, {
+		        		        radius: radiusSize,
+		        		        color: strokeStyleSet,//这里设置的是circleMarker的颜色属性
+		        		        labelStyle: {
+		        		          offsetX: 0, //横坐标偏移(像素)
+		        		          offsetY: 30, //纵坐标偏移(像素)
+		        		          text: dataInfo.cnName != '' ? dataInfo.cnName : dataInfo.enName,
+		        		          rotation: 0,
+		        		          zIndex: radiusSize,
+		        				  minZoom : 2,
+		        				  fillStyle: strokeStyleSet
+		        		        }
+	        		      	}).addTo(showLayerGroup);
+		    				marker.bindPopup(content); 
+		        		}
+		        		mymap.addLayer(showLayerGroup);
+		        	}
+		        },
+		        error:function(){
+		        	$.modal.alertWarning("获取信息失败");
+		        }
+		    });
+        }
