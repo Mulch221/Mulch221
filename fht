@@ -1,0 +1,57 @@
+# # -*- coding: utf-8 -*-
+
+# 数据爬取文件
+
+import scrapy
+import pymysql
+import pymssql
+from ..items import DianzitushuItem
+import time# # -*- coding: utf-8 -*-
+
+# 数据爬取文件
+
+import scrapy
+import pymysql
+import pymssql
+from ..items import DianzitushuItem
+import time
+from datetime import datetime,timedelta
+import datetime as formattime
+import re
+import random
+import platform
+import json
+import os
+import urllib
+from urllib.parse import urlparse
+import requests
+import emoji
+import numpy as np
+import pandas as pd
+from sqlalchemy import create_engine
+from selenium.webdriver import ChromeOptions, ActionChains
+from scrapy.http import TextResponse
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from datetime import datetime,timedelta
+import datetime as formattime
+import re
+import random
+import platform
+import json
+import os
+import urllib
+from urllib.parse import urlparse
+import requests
+import emoji
+import numpy as np
+import pandas as pd
+from sqlalchemy import create_engine
+from selenium.webdriver import ChromeOptions, ActionChains
+from scrapy.http import TextResponse
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
