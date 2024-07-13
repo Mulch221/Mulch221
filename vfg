@@ -1,0 +1,6 @@
+<div id="pitemdetail" runat="server" style=" width:270px; border-radius:10px; cursor:pointer; padding:10px; background-color:WhiteSmoke; margin-bottom:10px">
+     <div style="display:flex;flex-direction:row; flex-wrap:wrap;justify-content:space-between; ">
+     <img src="{LogoUrl}" width="125" height="75" /><div><span style="font-size:14pt;">{PName}</span><div style="width:100%; color:Gray;font-size:9pt "><br>售价：{Price}元<br>赠积分：{CCVC}</div></div></div>
+</div><!-- pitemdetail  -->
+ 
+<asp:Literal ID="result" runat="server"></asp:Literal>
