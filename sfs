@@ -1,0 +1,9 @@
+someAsyncOperation()
+  .then(result1 => anotherAsyncOperation(result1))
+  .then(result2 => yetAnotherAsyncOperation(result2))
+  .then(result3 => {
+    // ...处理result3...
+  })
+  .catch(error => {
+    // ...统一处理错误...
+  });
