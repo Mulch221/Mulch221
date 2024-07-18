@@ -1,0 +1,37 @@
+import requests
+from hashlib import sha256
+ 
+seen_urls = set()
+ 
+def fetch_data(url):
+    if url in seen_urls:
+        return None
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        seen_urls.add(url)
+        return response.text
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+        return None
+ 
+def parse_data(html_content):
+    # 解析数据的操作
+    # 示例：提取标题和链接
+    titles = []
+    links = []
+    # ... (解析逻辑)
+ 
+    return titles, links
+ 
+# 主程序
+url = 'http://example.com'
+html_content = fetch_data(url)
+if html_content:
+    titles, links = parse_data(html_content)
+    for title, link in zip(titles, links):
+        print(f"Title: {title}, Link: {link}")
+else:
+    print("Failed to fetch data.")
+ 
