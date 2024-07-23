@@ -1,0 +1,60 @@
+
+    public Course findCourse(String cno) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String sql = "select *from course where cno='" + cno +"'";
+        Course c = null;
+        DBConn db = new DBConn();
+        conn = db.getConn();
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                c = new Course();
+                c.setCno(rs.getString("cno"));
+                c.setCname(rs.getString("cname"));
+                c.setCteacher(rs.getString("cteacher"));
+                c.setCtype(rs.getString("ctype"));
+                c.setCplace(rs.getString("cplace"));
+                c.setCtime(rs.getString("ctime"));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException ex3) {
+            ex3.printStackTrace();
+        }
+        return c;
+    }
+
+    public Course findCourse_name(String cname) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String sql = "select *from course where cname='" + cname+"'";
+        Course c = null;
+        DBConn db = new DBConn();
+        conn = db.getConn();
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                c = new Course();
+                c.setCno(rs.getString("cno"));
+                c.setCname(rs.getString("cname"));
+                c.setCteacher(rs.getString("cteacher"));
+                c.setCtype(rs.getString("ctype"));
+                c.setCplace(rs.getString("cplace"));
+                c.setCtime(rs.getString("ctime"));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException ex3) {
+            ex3.printStackTrace();
+        }
+        return c;
+    }
