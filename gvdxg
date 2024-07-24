@@ -1,0 +1,43 @@
+<!--index.wxml-->
+<swiper class="content-info-slide" indicator-color="rgba(255,255,255,.5)" indicator-active-color="#FFC0CB"  indicator-dots circular autoplay>
+          <swiper-item style="width: 750rpx; height: 352rpx; display: block; box-sizing: border-box; left: 0rpx; top: 0rpx">
+            <image style="width: 750rpx; height:370rpx; display: inline-block; box-sizing: border-box" src="/images/hua.png" />
+          </swiper-item>
+          <swiper-item>
+            <image style="width: 750rpx; height: 370rpx; display: inline-block; box-sizing: border-box" src="/images/hua/hh.jpg" />
+          </swiper-item>
+          <swiper-item>
+            <image style="width: 750rpx; height: 370rpx; display: inline-block; box-sizing: border-box" src="/images/hua/hoh.jpg" />
+          </swiper-item>
+        </swiper>
+ <view class="nav">
+ <block wx:for="{{navs}}">
+   <view class="item" bindtap="navBtn" id="{{index}}">
+      <view>
+        <image src="{{item.img}}" style="width: 101rpx; height: 92rpx; display: inline-block; box-sizing: border-box"></image>
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+   </view>
+   </block>
+ </view>
+  <!--精品推荐-区域标题-->
+<view class='text'>
+  <input value="{{value}}" ></input>
+</view>
+<!--精品推荐-1行2列图片-->
+<view class="tuijians">
+  <navigator url=''>
+  <view class="tuijian-item" >
+    <image src='/images/hua/1.jpg' class="tuijian-image" />
+  </view>  
+  </navigator>
+  <navigator url=''>
+  <view class="tuijian-item" >
+    <image src='/images/hua/2.jpg' class="tuijian-image"/>
+  </view>     
+  </navigator>
+  
+</view>
+
