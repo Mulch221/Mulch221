@@ -1,0 +1,80 @@
+# 定义函数，用于获取电影详情页的信息
+def get_video_detail(details_url, csvwriter):
+    detail_url = BASE_URL + details_url
+    with requests.Session() as session:
+        response = session.get(url=detail_url, headers=HEADERS, verify=False)
+    detail_html_text = response.content.decode('gbk')
+    detail_html = etree.HTML(detail_html_text)
+    detail_content = detail_html.xpath("//div[@id='Zoom']//text()")
+ 
+    # 遍历详情页的信息，提取出需要的信息，并存储到video_info字典中
+    for index, info in enumerate(detail_content):
+        if info.startswith('◎译  名'):
+            video_info['Video_Name_CN'] = info.replace('◎译  名', '').strip()
+        if info.startswith('◎片  名'):
+            video_info['Video_Name'] = info.replace('◎片  名', '').strip()
+        if info.startswith('◎产  地'):
+            video_info['Video_Address'] = info.replace('◎产  地', '').strip()
+        if info.startswith('◎类  别'):
+            video_info['Video_Type'] = info.replace('◎类  别', '').strip()
+        if info.startswith('◎语  言'):
+            video_info['Video_Language'] = info.replace('◎语  言', '').strip()
+        if info.startswith('◎上映日期'):
+            video_info['Video_Date'] = info.replace('◎上映日期', '').strip()
+        if info.startswith('◎豆瓣评分'):
+            video_info['Video_Number'] = info.replace('◎豆瓣评分', '').strip()
+        if info.startswith('◎片  长'):
+            video_info['Video_Time'] = info.replace('◎片  长', '').strip()
+        if info.startswith('◎导  演'):
+            video_info['Video_Director'] = info.replace('◎导  演', '').strip()
+        if info.startswith('◎主  演'):
+            video_info['Video_Cast'] = []
+            video_actor = info.replace('◎主  演', '').strip()
+            video_info['Video_Cast'].append(video_actor)
+            for actor in detail_content[index + 1:]:
+                actor = actor.strip()
+                if actor.startswith("◎"):
+                    break
+                video_info['Video_Cast'].append(actor)
+ 
+    # 将获取到的电影信息写入到CSV文件中，并记录日志
+    logging.info(f"{video_info['Video_Name_CN']}, {video_info['Video_Date']}, {video_info['Video_Time']}")
+    try:
+        csvwriter.writerow(video_info)
+    except Exception as e:
+        error_logger.error(f"Error occurred while writing to csv: {e}")
+ 
+ 
+# 定义爬虫函数，用于爬取指定页数的电影信息
+def spider(pages):
+    # 打开CSV文件，并写入表头
+    with open('movies.csv', 'a', encoding='utf-8', newline='') as file:
+        csvwriter = csv.DictWriter(file, fieldnames=video_info.keys())
+        csvwriter.writeheader()
+ 
+        # 遍历每一页，获取电影列表页的信息，并提取出电影详情页的链接
+        for page in range(1, pages + 1):
+            page_url = f'{BASE_URL}/html/*/*/list_23_{page}.html'
+            with requests.Session() as session:
+                request = session.get(url=page_url, headers=HEADERS)
+            page_html_text = request.text
+            page_html = etree.HTML(page_html_text)
+            detail_urls = page_html.xpath('//*[@class="co_content8"]//a/@href')
+ 
+            # 遍历每个电影详情页，并调用get_video_detail函数获取电影信息
+            for detail_url in detail_urls:
+                if detail_url.startswith('/'):
+                    try:
+                        get_video_detail(detail_url, csvwriter)
+                    except Exception as e:
+                        error_logger.error(f"Error occurred: {e}")
+ 
+                    # 随机等待1-3秒，防止被网站封IP
+                    time.sleep(randint(1, 3))
+ 
+            # 记录日志，表示该页已经爬取完成
+            logging.info(f"==============第{page}页爬取完毕！=================")
+ 
+ 
+if __name__ == '__main__':
+    spider(120)
